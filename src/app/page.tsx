@@ -51,12 +51,12 @@ export default function LandingPage() {
             Optimize your career journey with industry-leading ATS analysis, professional resume auditing, and real-time recruiter feedback powered by advanced CareerPulse AI.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="#workflow">
+            <Link href="/dashboard">
               <Button size="lg" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white rounded-full px-8 h-12 w-full sm:w-auto text-base">
                 Start Free Review
               </Button>
             </Link>
-            <Link href="/dashboard/reviews/demo-id">
+            <Link href="#demo">
               <Button size="lg" variant="outline" className="rounded-full px-8 h-12 w-full sm:w-auto border-zinc-700 bg-zinc-900/50 hover:bg-zinc-800 text-base">
                 View Sample Report <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
@@ -229,7 +229,7 @@ export default function LandingPage() {
       <footer className="container mx-auto px-6 py-12 border-t border-zinc-800/50 mt-12 flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-zinc-500">
         <div>
           <span className="font-bold text-white mb-1 block">CareerAI</span>
-          <p>© 2024 CareerAI. All rights reserved.</p>
+          <p>© 2024 CareerAI. Wasee</p>
         </div>
         <div className="flex gap-6">
           <Link href="#" className="hover:text-zinc-300">Privacy Policy</Link>

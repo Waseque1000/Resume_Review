@@ -2,39 +2,80 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, AlertTriangle, DownloadCloud, BrainCircuit, Activity, TrendingUp } from "lucide-react";
+import { CheckCircle2, AlertTriangle, DownloadCloud, BrainCircuit, Activity, TrendingUp, FileText, Target } from "lucide-react";
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function ReviewDetailPage() {
   const params = useParams();
+  const id = params?.id as string;
   
+  const [extractedText, setExtractedText] = useState("");
+  const [resumeName, setResumeName] = useState("");
+
+  useEffect(() => {
+    if (id === "new") {
+      setExtractedText(localStorage.getItem("uploadedResumeText") || "");
+      setResumeName(localStorage.getItem("uploadedResumeName") || "Resume");
+    }
+  }, [id]);
+  
+  if (id === "new" && extractedText) {
+    return (
+      <div className="space-y-8 pb-12 max-w-5xl mx-auto">
+        <div className="flex flex-col items-center justify-center py-10">
+          <div className="w-16 h-16 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center mb-6">
+            <FileText className="w-8 h-8" />
+          </div>
+          <h1 className="text-3xl font-bold mb-3 tracking-tight">Original Resume Data</h1>
+          <p className="text-zinc-400 text-center max-w-2xl">
+            Successfully extracted text from <span className="text-white font-medium">{resumeName}</span>. 
+            AI Analysis is pending backend integration (Phase 3).
+          </p>
+        </div>
+
+        <Card className="bg-[#12121A] border-zinc-800/50">
+          <CardContent className="p-8">
+            <h3 className="text-xl font-semibold mb-6 text-white flex items-center gap-2">
+              <BrainCircuit className="w-5 h-5 text-purple-400" />
+              Raw Extracted Text
+            </h3>
+            <div className="p-6 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-300 text-sm whitespace-pre-wrap max-h-[600px] overflow-y-auto leading-relaxed">
+              {extractedText}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8 pb-12 max-w-5xl mx-auto">
       {/* Top ATS Score Section */}
-      <div className="flex flex-col items-center justify-center py-10">
-        <div className="relative w-48 h-48 flex items-center justify-center mb-8">
+      <div className="flex flex-col items-center justify-center py-10 px-4 text-center">
+        <div className="relative w-40 h-40 md:w-48 md:h-48 flex items-center justify-center mb-8">
           <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" strokeWidth="8" className="text-zinc-800" />
             <circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" strokeWidth="8" strokeDasharray="276" strokeDashoffset="33.12" className="text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,0.5)]" strokeLinecap="round" />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-5xl font-bold">88<span className="text-2xl">%</span></span>
-            <span className="text-xs text-zinc-400 font-semibold uppercase tracking-widest mt-1">ATS Match Score</span>
+            <span className="text-4xl md:text-5xl font-bold">88<span className="text-2xl">%</span></span>
+            <span className="text-[10px] md:text-xs text-zinc-400 font-semibold uppercase tracking-widest mt-1">ATS Match Score</span>
           </div>
         </div>
 
-        <h1 className="text-3xl font-bold mb-3 tracking-tight">Senior Product Designer Analysis</h1>
-        <p className="text-zinc-400 text-center max-w-2xl">
+        <h1 className="text-2xl md:text-3xl font-bold mb-3 tracking-tight">Senior Product Designer Analysis</h1>
+        <p className="text-zinc-400 text-sm md:text-base text-center max-w-2xl">
           Your profile is highly competitive for Tier-1 tech firms. We've identified 3 critical optimizations to reach the 95th percentile.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Column: Strengths & Weaknesses */}
         <div className="space-y-6">
           <Card className="bg-[#12121A] border-zinc-800/50">
             <CardContent className="p-6">
-              <h3 className="text-xl font-semibold mb-6 flex items-center gap-2 text-white">
+              <h3 className="text-lg md:text-xl font-semibold mb-6 flex items-center gap-2 text-white">
                 <CheckCircle2 className="w-5 h-5 text-cyan-400" />
                 Key Strengths
               </h3>
@@ -61,7 +102,7 @@ export default function ReviewDetailPage() {
 
           <Card className="bg-[#12121A] border-zinc-800/50">
             <CardContent className="p-6">
-              <h3 className="text-xl font-semibold mb-6 flex items-center gap-2 text-white">
+              <h3 className="text-lg md:text-xl font-semibold mb-6 flex items-center gap-2 text-white">
                 <AlertTriangle className="w-5 h-5 text-orange-400" />
                 Areas to Improve
               </h3>
@@ -90,30 +131,18 @@ export default function ReviewDetailPage() {
           <Card className="bg-[#12121A] border-zinc-800/50 h-full flex flex-col">
             <CardContent className="p-6 flex-1 flex flex-col">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-semibold text-white">Portfolio Audit</h3>
+                <h3 className="text-lg md:text-xl font-semibold text-white">Portfolio Audit</h3>
                 <span className="text-[10px] font-semibold tracking-widest uppercase px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full">
                   Live Preview
                 </span>
               </div>
               
-              <div className="w-full h-48 rounded-lg bg-zinc-900 border border-zinc-800 mb-6 flex items-center justify-center relative overflow-hidden group">
+              <div className="w-full h-40 md:h-48 rounded-lg bg-zinc-900 border border-zinc-800 mb-6 flex items-center justify-center relative overflow-hidden group">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-900/40 to-black pointer-events-none" />
-                <div className="relative z-10 w-4/5 h-4/5 bg-black border border-zinc-800 rounded shadow-2xl flex flex-col overflow-hidden">
-                  <div className="h-4 border-b border-zinc-800 bg-zinc-900 flex items-center px-2 gap-1">
-                    <div className="w-1.5 h-1.5 rounded-full bg-red-500"></div>
-                    <div className="w-1.5 h-1.5 rounded-full bg-yellow-500"></div>
-                    <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
-                  </div>
-                  <div className="flex-1 p-4">
-                    <div className="w-1/2 h-2 bg-zinc-800 rounded mb-2"></div>
-                    <div className="w-3/4 h-2 bg-zinc-800 rounded mb-4"></div>
-                    <div className="grid grid-cols-3 gap-2">
-                      <div className="h-10 bg-zinc-800 rounded"></div>
-                      <div className="h-10 bg-zinc-800 rounded"></div>
-                      <div className="h-10 bg-zinc-800 rounded"></div>
-                    </div>
-                  </div>
+                <div className="text-zinc-600 font-mono text-sm group-hover:scale-105 transition-transform duration-500 z-10">
+                  alex-designer.dev
                 </div>
+                <div className="absolute inset-0 border-2 border-purple-500/0 group-hover:border-purple-500/50 transition-colors rounded-lg pointer-events-none" />
               </div>
               
               <div className="grid grid-cols-2 gap-4 mt-auto">

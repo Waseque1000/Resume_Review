@@ -8,9 +8,9 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen bg-[#0A0A0E] text-white overflow-hidden">
-      {/* Sidebar */}
-      <aside className="w-64 flex-shrink-0 border-r border-zinc-800/50 flex flex-col bg-[#0A0A0E] relative z-20">
+    <div className="flex flex-col md:flex-row h-screen bg-[#0A0A0E] text-white overflow-hidden">
+      {/* Sidebar - hidden on mobile */}
+      <aside className="hidden md:flex w-64 flex-shrink-0 border-r border-zinc-800/50 flex-col bg-[#0A0A0E] relative z-20">
         <div className="h-16 flex items-center px-6 border-b border-zinc-800/50">
           <Link href="/" className="font-bold text-xl tracking-tight">CareerAI</Link>
         </div>
@@ -69,16 +69,24 @@ export default function DashboardLayout({
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col bg-[#050508] relative">
+        {/* Mobile Header */}
+        <div className="md:hidden h-16 flex items-center justify-between px-6 border-b border-zinc-800/50 bg-[#0A0A0E] z-20">
+          <Link href="/" className="font-bold text-xl tracking-tight">CareerAI</Link>
+          <div className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700 overflow-hidden">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex" alt="Avatar" className="w-full h-full object-cover" />
+          </div>
+        </div>
+
         {/* Top Header */}
-        <header className="h-16 flex items-center justify-between px-8 border-b border-zinc-800/50 bg-[#0A0A0E] z-10">
-          <nav className="flex items-center gap-8">
-            <Link href="/dashboard" className="text-sm font-medium text-white border-b-2 border-purple-500 py-5">Dashboard</Link>
-            <Link href="/dashboard/reviews" className="text-sm font-medium text-zinc-400 hover:text-white py-5">Reviews</Link>
-            <Link href="/dashboard/coach" className="text-sm font-medium text-zinc-400 hover:text-white py-5">Coach</Link>
-            <Link href="/dashboard/settings" className="text-sm font-medium text-zinc-400 hover:text-white py-5">Settings</Link>
+        <header className="hidden md:flex h-16 items-center justify-between px-8 border-b border-zinc-800/50 bg-[#0A0A0E] z-10">
+          <nav className="flex items-center gap-8 overflow-x-auto">
+            <Link href="/dashboard" className="text-sm font-medium text-white border-b-2 border-purple-500 py-5 whitespace-nowrap">Dashboard</Link>
+            <Link href="/dashboard/reviews" className="text-sm font-medium text-zinc-400 hover:text-white py-5 whitespace-nowrap">Reviews</Link>
+            <Link href="/dashboard/coach" className="text-sm font-medium text-zinc-400 hover:text-white py-5 whitespace-nowrap">Coach</Link>
+            <Link href="/dashboard/settings" className="text-sm font-medium text-zinc-400 hover:text-white py-5 whitespace-nowrap">Settings</Link>
           </nav>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 shrink-0">
             <button className="text-zinc-400 hover:text-white"><Bell className="w-5 h-5" /></button>
             <button className="text-zinc-400 hover:text-white"><HelpCircle className="w-5 h-5" /></button>
             <div className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700 overflow-hidden">
@@ -88,7 +96,7 @@ export default function DashboardLayout({
         </header>
 
         {/* Scrollable Content */}
-        <main className="flex-1 overflow-y-auto p-8 relative">
+        <main className="flex-1 overflow-y-auto p-4 md:p-8 relative">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
           <div className="max-w-6xl mx-auto relative z-10">
             {children}

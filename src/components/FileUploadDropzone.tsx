@@ -42,20 +42,40 @@ export function FileUploadDropzone({ className, onFileAccepted }: FileUploadDrop
     maxSize: 10 * 1024 * 1024, // 10MB
   });
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     if (!selectedFile) return;
     setIsUploading(true);
     
-    // TODO: Connect this to actual backend upload (UploadThing)
-    setTimeout(() => {
-      setIsUploading(false);
-      setIsSuccess(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
       
-      // Navigate to the review detail page after a short delay
-      setTimeout(() => {
-        router.push("/dashboard/reviews/demo-id");
-      }, 1000);
-    }, 1500);
+      const response = await fetch("/api/extract", {
+        method: "POST",
+        body: formData,
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        // Store the original text to display on the review page
+        localStorage.setItem("uploadedResumeText", data.text);
+        localStorage.setItem("uploadedResumeName", selectedFile.name);
+        
+        setIsSuccess(true);
+        setTimeout(() => {
+          router.push("/dashboard/reviews/new");
+        }, 1000);
+      } else {
+        console.error("Extraction failed:", data.error);
+        alert("Failed to parse resume.");
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      alert("An error occurred during upload.");
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const clearFile = (e: React.MouseEvent) => {
